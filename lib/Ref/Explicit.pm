@@ -21,7 +21,7 @@ sub hashref { +{@_} }
 =head1 SYNOPSIS
 
   use Ref::Explicit qw(arrayref hashref);
-  
+
   my $arrayref = arrayref map { ... } @values;
   my @array_of_hashrefs = map { hashref $key => $value, ... } @values;
 
@@ -36,7 +36,7 @@ Return an array reference containing the values passed as arguments. Useful if y
   sub search {
     ...
     my @result = grep {
-      ... # complex multiline 
+      ... # complex multiline
       ... # calculations
     } @values;
 
@@ -46,13 +46,13 @@ Return an array reference containing the values passed as arguments. Useful if y
 You need to introduce an extra variable (C<@result>) in order to return a reference. This is a very common scenario, e.g. in L<Moose> attribute builders. You could avoid the extra variable by using square brackets:
 
   return [ grep {
-    ... 
+    ...
   } @values ];
 
 But this makes the syntax ugly and the intent unclear. With C<arrayref> the above code becomes:
 
   return arrayref grep {
-    ... 
+    ...
   } @values;
 
 =func C<hashref> (@VALUES)
