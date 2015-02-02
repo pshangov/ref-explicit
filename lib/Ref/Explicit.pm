@@ -5,12 +5,10 @@ package Ref::Explicit;
 use strict;
 use warnings;
 
-use base 'Exporter';
+use parent 'Exporter';
 
-our (@EXPORT, @EXPORT_OK);
-
-@EXPORT = qw(arrayref hashref);
-@EXPORT_OK = qw(arrayref hashref);
+our @EXPORT    = qw(arrayref hashref);
+our @EXPORT_OK = @EXPORT;
 
 sub arrayref { \@_ }
 
