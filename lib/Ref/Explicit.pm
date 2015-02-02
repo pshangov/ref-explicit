@@ -55,6 +55,28 @@ But this makes the syntax ugly and the intent unclear. With C<arrayref> the abov
     ...
   } @values;
 
+B<WARNING>: C<arrayref> will, in most cases, create references to the original 
+variables, which means that modifying the original variable will impact the 
+copy, and vice versa.
+
+    my @array = ( 1, 2, 3, 4 );
+    my $copy = arrayref @array;
+
+    $array[0]  = 'a';   # $copy->[0] is now 'a'
+    $copy->[1] = 'b';   # $array[1] is now 'b'
+
+    my %hash = ( 'a' => 'b', 'c' => 'd' );
+    $copy = arrayref %hash;
+
+    $hash{a}   = 'e';  # $copy->[4] is now 'e'!
+    $copy->[1] = 'f';  # $hash{a} is now 'f'!
+
+    my( $one, $three ) = qw/ one three /;
+    $copy = arrayref $one, '2', $three;
+
+    $three     = 'trois';  # $copy->[2] is now 'trois'!
+    $copy->[0] = 'un';     # $one is now 'un'!
+
 =func C<hashref> (@VALUES)
 
 Return a hash reference containing the values passed as arguments. Useful within C<map>-like expressions that return a list of hashrefs. Consider the following example:
@@ -65,6 +87,9 @@ Return a hash reference containing the values passed as arguments. Useful within
 The C<+> (plus) sign tells the parser to evaluate the code in curly brackets as an anonymous hashref rather than as a block. With C<hashref> this can be written more elegantly as:
 
   my @persons = map { hashref name => $_, industry => 'Movies' } @names;
+
+The C<hashref> function always make a copy of the original values passed, so it doesn't
+have the peculiar corner-case behavior of C<arrayref>.
 
 =head1 CAVEATS
 
